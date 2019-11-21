@@ -1,0 +1,8 @@
+*.tgz
+.idea
+.storybook
+/*eslint*
+/.*rc*
+docs
+src/stories
+webpack.config.js

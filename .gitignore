@@ -1,0 +1,9 @@
+*.log
+*.psd
+*.tgz
+.eslintcache
+.idea
+dist
+docs
+node_modules
+temp
