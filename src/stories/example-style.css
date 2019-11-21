@@ -1,6 +1,6 @@
 .wheely-base {
-    border: 1px dotted silver;
     position: relative;
+    cursor: pointer;
 }
 
 .wheely-inner {

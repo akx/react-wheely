@@ -1,6 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import { withKnobs, boolean } from "@storybook/addon-knobs";
+import { boolean, withKnobs } from "@storybook/addon-knobs";
 import { withInfo } from "@storybook/addon-info";
 import { action } from "@storybook/addon-actions";
 import { Wheel } from "..";
@@ -34,3 +34,33 @@ stories.add("with a custom label", () => (
     )}
   />
 ));
+
+stories.add("phone number input", () => {
+  const [number, setNumber] = React.useState("0000000");
+  const replaceDigit = (index, digit) => {
+    const digitArray = Array.from(number);
+    digitArray.splice(index, 1, `${Math.min(digit, 9)}`);
+    setNumber(digitArray.join(""));
+  };
+  const wheels = Array.from(number).map((v, index) => (
+    <Wheel
+      key={index}
+      size={70}
+      min={0}
+      initialDegrees={v * 36}
+      onChangeValue={value =>
+        replaceDigit(index, Math.round((value % 360) / 36))
+      }
+    />
+  ));
+  return (
+    <div>
+      <input
+        readOnly
+        value={`${number.substr(0, 3)}-${number.substr(3)}`}
+        style={{ fontSize: "40px" }}
+      />
+      <div style={{ display: "flex", marginTop: ".5em" }}>{wheels}</div>
+    </div>
+  );
+});
