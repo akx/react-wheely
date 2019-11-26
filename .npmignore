@@ -3,6 +3,7 @@
 .storybook
 /*eslint*
 /.*rc*
+assets
 docs
 src/stories
 webpack.config.js
