@@ -1,6 +1,6 @@
 # react-wheely
 
-A mouse-driven wheel component for React.js.
+A mouse and touch driven wheel component for React.js.
 
 ## Development and Storybook
 

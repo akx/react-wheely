@@ -21,7 +21,7 @@ function Wheel({
   }, [initialDegrees]);
   const [changing, setChanging] = React.useState(false);
 
-  function handleMouseDown(mouseDownEvent) {
+  function handleBegin(event) {
     const origStateDegrees = degrees;
     const snapValue = newDegrees =>
       limitValue(origStateDegrees, newDegrees, snap, min, max);
@@ -33,7 +33,7 @@ function Wheel({
 
       beginRotationBehavior(
         ref.current,
-        mouseDownEvent,
+        event,
         (moveEvent, newDegrees) => {
           const totalDegrees = snapValue(newDegrees);
           if (degrees !== totalDegrees) {
@@ -56,13 +56,14 @@ function Wheel({
   }
 
   const sizePx = `${size}px`;
-  const style = { width: sizePx, height: sizePx };
+  const style = { width: sizePx, height: sizePx, touchAction: "none" };
   return (
     <div
       className={`${classNamePrefix}base`}
       style={style}
       ref={ref}
-      onMouseDown={handleMouseDown}
+      onMouseDown={handleBegin}
+      onTouchStart={handleBegin}
     >
       <div
         className={`${classNamePrefix}inner`}
