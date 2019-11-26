@@ -25,7 +25,7 @@ function Wheel({
     const origStateDegrees = degrees;
     const snapValue = newDegrees =>
       limitValue(origStateDegrees, newDegrees, snap, min, max);
-    if (ref.current) {
+    if (ref.current && !changing) {
       setChanging(true);
       if (onBeginChange) {
         onBeginChange(origStateDegrees);
