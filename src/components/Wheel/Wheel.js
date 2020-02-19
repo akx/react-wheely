@@ -21,39 +21,51 @@ function Wheel({
   }, [initialDegrees]);
   const [changing, setChanging] = React.useState(false);
 
-  function handleBegin(event) {
-    const origStateDegrees = degrees;
-    const snapValue = newDegrees =>
-      limitValue(origStateDegrees, newDegrees, snap, min, max);
-    if (ref.current && !changing) {
-      setChanging(true);
-      if (onBeginChange) {
-        onBeginChange(origStateDegrees);
-      }
+  const handleBegin = React.useCallback(
+    event => {
+      const origStateDegrees = degrees;
+      const snapValue = newDegrees =>
+        limitValue(origStateDegrees, newDegrees, snap, min, max);
+      if (ref.current && !changing) {
+        setChanging(true);
+        if (onBeginChange) {
+          onBeginChange(origStateDegrees);
+        }
 
-      beginRotationBehavior(
-        ref.current,
-        event,
-        (moveEvent, newDegrees) => {
-          const totalDegrees = snapValue(newDegrees);
-          if (degrees !== totalDegrees) {
+        beginRotationBehavior(
+          ref.current,
+          event,
+          (moveEvent, newDegrees) => {
+            const totalDegrees = snapValue(newDegrees);
+            if (degrees !== totalDegrees) {
+              setDegrees(totalDegrees);
+              if (onChangeValue) {
+                onChangeValue(totalDegrees);
+              }
+            }
+          },
+          (moveEvent, newDegrees) => {
+            setChanging(false);
+            const totalDegrees = snapValue(newDegrees);
             setDegrees(totalDegrees);
-            if (onChangeValue) {
-              onChangeValue(totalDegrees);
+            if (onCommitValue) {
+              onCommitValue(totalDegrees);
             }
           }
-        },
-        (moveEvent, newDegrees) => {
-          setChanging(false);
-          const totalDegrees = snapValue(newDegrees);
-          setDegrees(totalDegrees);
-          if (onCommitValue) {
-            onCommitValue(totalDegrees);
-          }
-        }
-      );
-    }
-  }
+        );
+      }
+    },
+    [
+      changing,
+      degrees,
+      max,
+      min,
+      onBeginChange,
+      onChangeValue,
+      onCommitValue,
+      snap
+    ]
+  );
 
   const sizePx = `${size}px`;
   const style = { width: sizePx, height: sizePx, touchAction: "none" };
