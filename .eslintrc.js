@@ -5,7 +5,7 @@ module.exports = {
     es6: true
   },
   extends: ["airbnb", "prettier"],
-  plugins: ["prettier", "react"],
+  plugins: ["prettier", "react", "react-hooks"],
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly"
@@ -20,6 +20,8 @@ module.exports = {
   rules: {
     "import/prefer-default-export": "off",
     "jsx-a11y/no-static-element-interactions": "off",
+    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/rules-of-hooks": "error",
     "react/jsx-filename-extension": "off",
     "react/jsx-indent": "off",
     "react/jsx-indent-props": "off",
