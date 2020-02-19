@@ -1,5 +1,5 @@
 import React from "react";
-import { beginRotationBehavior } from "./rotationBehavior";
+import { beginRotationBehavior } from "./movementBehavior";
 import { limitValue } from "./utils";
 
 function Wheel({
