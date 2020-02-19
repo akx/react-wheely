@@ -1,4 +1,7 @@
+*.log
 *.tgz
+.*ignore
+.github
 .idea
 .storybook
 /*eslint*
