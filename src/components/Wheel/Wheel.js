@@ -1,6 +1,31 @@
 import React from "react";
-import { beginRotationBehavior } from "./movementBehavior";
+import { beginMovementBehavior } from "./movementBehavior";
 import { limitValue } from "./utils";
+
+function getMovementConfiguration(movementMode) {
+  if (typeof movementMode === "string") {
+    switch (movementMode) {
+      case "circular":
+        return {
+          mode: "circular",
+          deltaR: 1
+        };
+      case "horizontal":
+      case "vertical":
+        return {
+          mode: "linear",
+          deltaX: movementMode === "horizontal" ? +1 : 0,
+          deltaY: movementMode === "vertical" ? -1 : 0
+        };
+      default:
+        throw new Error(`invalid motion mode string: ${movementMode}`);
+    }
+  } else if (movementMode.mode) {
+    // Assume the user knows how to work movement configurations!
+    return movementMode;
+  }
+  throw new Error(`Invalid movement configuration`);
+}
 
 function Wheel({
   size,
@@ -12,7 +37,8 @@ function Wheel({
   onChangeValue,
   onCommitValue,
   classNamePrefix,
-  renderLabel
+  renderLabel,
+  movementMode
 }) {
   const ref = React.useRef(null);
   const [degrees, setDegrees] = React.useState(initialDegrees || 0);
@@ -31,8 +57,8 @@ function Wheel({
         if (onBeginChange) {
           onBeginChange(origStateDegrees);
         }
-
-        beginRotationBehavior(
+        beginMovementBehavior(
+          getMovementConfiguration(movementMode),
           ref.current,
           event,
           (moveEvent, newDegrees) => {
@@ -60,6 +86,7 @@ function Wheel({
       degrees,
       max,
       min,
+      movementMode,
       onBeginChange,
       onChangeValue,
       onCommitValue,
@@ -91,7 +118,8 @@ function Wheel({
 
 Wheel.defaultProps = {
   size: 200,
-  classNamePrefix: "wheely-"
+  classNamePrefix: "wheely-",
+  movementMode: "circular"
 };
 
 export default Wheel;

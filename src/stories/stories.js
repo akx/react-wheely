@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key,react/jsx-curly-newline */
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import { boolean, withKnobs } from "@storybook/addon-knobs";
+import { boolean, select, withKnobs } from "@storybook/addon-knobs";
 import { withInfo } from "@storybook/addon-info";
 import { action } from "@storybook/addon-actions";
 import { Wheel } from "..";
@@ -19,6 +19,11 @@ stories.add(
       snap={boolean("Snap to 10 Degrees", false) ? 10 : undefined}
       min={boolean("Minimum Zero", false) ? 0 : undefined}
       max={boolean("Maximum 400", false) ? 400 : undefined}
+      movementMode={select(
+        "Motion Mode",
+        ["circular", "horizontal", "vertical"],
+        "circular"
+      )}
       initialDegrees={42}
       onBeginChange={action("beginChange")}
       onChangeValue={action("changeValue", { limit: 5 })}
