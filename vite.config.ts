@@ -7,7 +7,7 @@ import path from "node:path";
 export default defineConfig(({ mode }) => {
   const config: UserConfig = {
     plugins: [
-      react({jsxRuntime: "classic"}),
+      react({ jsxRuntime: "classic" }),
       // dts(),
     ],
   };

@@ -23,7 +23,7 @@
     "deploy-ladle": "yarn ladle-build && ghpg -d ./docs --nojekyll --push",
     "deploy-npm": "git clean -fdx dist && yarn build && npm publish --dry-run",
     "deploy-npm-really": "git clean -fdx dist && yarn build && npm publish",
-    "prettify": "prettier --write '**/*.js*'"
+    "prettify": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -47,7 +47,7 @@
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.4",
     "ghpg": "^1.0.1",
-    "prettier": "^2.0.5",
+    "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "vite": "^3.0.2"

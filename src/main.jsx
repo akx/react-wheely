@@ -6,11 +6,7 @@ import { Wheel } from "../lib";
 function App() {
   return (
     <div className="App">
-      <Wheel
-        size={200}
-        movementMode="circular"
-        initialDegrees={42}
-      />
+      <Wheel size={200} movementMode="circular" initialDegrees={42} />
     </div>
   );
 }
@@ -19,5 +15,5 @@ ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById("root"),
+  document.getElementById("root")
 );

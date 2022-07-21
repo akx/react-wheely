@@ -4,7 +4,7 @@ import { Wheel } from "../../lib";
 import "./example-style.css";
 
 export default {
-  title: 'Wheel',
+  title: "Wheel",
   component: Wheel,
 };
 
@@ -56,7 +56,6 @@ export const WithACustomLabel = ({ snap10, min0, max400, movementMode }) => (
 //  onCommitValue: {action: 'onCommitValue'},
 //};
 
-
 export const PhoneNumberInput = () => {
   const [number, setNumber] = React.useState("0000000");
   const replaceDigit = (index, digit) => {
@@ -70,7 +69,7 @@ export const PhoneNumberInput = () => {
       size={70}
       min={0}
       initialDegrees={v * 36}
-      onChangeValue={value =>
+      onChangeValue={(value) =>
         replaceDigit(index, Math.round((value % 360) / 36))
       }
     />

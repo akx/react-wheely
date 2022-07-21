@@ -2,20 +2,20 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    es6: true
+    es6: true,
   },
   extends: ["airbnb", "prettier"],
   plugins: ["prettier", "react", "react-hooks"],
   globals: {
     Atomics: "readonly",
-    SharedArrayBuffer: "readonly"
+    SharedArrayBuffer: "readonly",
   },
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 2018,
-    sourceType: "module"
+    sourceType: "module",
   },
   rules: {
     "import/prefer-default-export": "off",
@@ -25,6 +25,6 @@ module.exports = {
     "react/jsx-filename-extension": "off",
     "react/jsx-indent": "off",
     "react/jsx-indent-props": "off",
-    "react/prop-types": "off"
-  }
+    "react/prop-types": "off",
+  },
 };
