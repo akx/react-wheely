@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key,react/jsx-curly-newline,react/jsx-props-no-spreading */
 import React from "react";
-import { action } from "@storybook/addon-actions";
-import { Wheel } from "..";
+import { Wheel } from "../../lib";
 import "./example-style.css";
 
 export default {
@@ -9,18 +8,14 @@ export default {
   component: Wheel,
 };
 
-export const withACustomLabel = ({ snap10, min0, max400, movementMode, ...props }) => (
+export const WithACustomLabel = ({ snap10, min0, max400, movementMode }) => (
   <Wheel
     size={200}
     snap={snap10 ? 10 : undefined}
     min={min0 ? 0 : undefined}
     max={max400 ? 400 : undefined}
     movementMode={movementMode}
-    {...props}
     initialDegrees={42}
-    onBeginChange={action("beginChange")}
-    onChangeValue={action("changeValue", { limit: 5 })}
-    onCommitValue={action("commitValue")}
     renderLabel={({ degrees, style, changing }) => (
       <div className="my-wheel-label" style={style}>
         {degrees.toFixed(2)}
@@ -29,39 +24,40 @@ export const withACustomLabel = ({ snap10, min0, max400, movementMode, ...props 
     )}
   />
 );
-withACustomLabel.args = {
-  snap10: false,
-  min0: false,
-  max400: false,
-  movementMode: 'circular',
-};
-withACustomLabel.argTypes = {
-  movementMode: {
-    control: {
-      type: 'inline-radio',
-      options: ['circular', 'horizontal', 'vertical'],
-    },
-  },
-  snap10: {
-    name: "Snap to 10 Degrees",
-  },
-  min0: {
-    name: "Minimum Zero",
-  },
-  max400: {
-    name: "Maximum 400",
-  },
-  size: {
-    control: {
-      type: 'range',
-      min: 90,
-      max: 1000,
-    },
-  },
-};
+// TODO: re-enable these with Ladle
+//WithACustomLabel.args = {
+//  snap10: false,
+//  min0: false,
+//  max400: false,
+//  movementMode: 'circular',
+//};
+//WithACustomLabel.argTypes = {
+//  movementMode: {
+//    options: ['circular', 'horizontal', 'vertical'],
+//  },
+//  snap10: {
+//    name: "Snap to 10 Degrees",
+//  },
+//  min0: {
+//    name: "Minimum Zero",
+//  },
+//  max400: {
+//    name: "Maximum 400",
+//  },
+//  size: {
+//    //control: {
+//    //  type: 'range',
+//    //  min: 90,
+//    //  max: 1000,
+//    //},
+//  },
+//  onBeginChange: {action: 'onBeginChange'},
+//  onChangeValue: {action: 'onChangeValue'},
+//  onCommitValue: {action: 'onCommitValue'},
+//};
 
 
-export const phoneNumberInput = () => {
+export const PhoneNumberInput = () => {
   const [number, setNumber] = React.useState("0000000");
   const replaceDigit = (index, digit) => {
     const digitArray = Array.from(number);

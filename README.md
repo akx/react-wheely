@@ -2,11 +2,11 @@
 
 A mouse and touch driven wheel component for React.js.
 
-## Development and Storybook
+## Development and Ladle (storybook)
 
 ```bash
 $ yarn
-$ yarn storybook
+$ yarn ladle serve
 ```
 
 ## Build
@@ -17,5 +17,4 @@ $ yarn build
 
 ## Acknowledgements
 
-* Inspiration: @antza from Koodiklinikka (via the EasyPark app)
-* Repository boilerplate: [Rinse](https://rinsejs.io/)
+- Inspiration: @antza from Koodiklinikka (via the EasyPark app)
