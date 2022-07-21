@@ -1,20 +1,18 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { defineConfig, UserConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
-// import dts from "vite-dts";
+import dts from "vite-dts";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const config: UserConfig = {
-    plugins: [
-      react({ jsxRuntime: "classic" }),
-      // dts(),
-    ],
+    plugins: [react(), dts()],
   };
-  if (mode == "lib") {
+  if (mode === "lib") {
     config.build = {
       lib: {
-        entry: path.resolve(__dirname, "lib/index.js"),
+        entry: path.resolve(__dirname, "lib/index.ts"),
         name: "ReactWheely",
         fileName: (format) => `react-wheely.${format}.js`,
       },
