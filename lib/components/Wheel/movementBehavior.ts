@@ -1,7 +1,32 @@
 import { angleDifference, RAD_TO_DEG } from "./utils";
 
-function getEventXY(event, touchId) {
-  if (touchId !== null) {
+type Point = [number, number];
+
+export type MoveEvent =
+  | TouchEvent
+  | MouseEvent
+  | React.TouchEvent
+  | React.MouseEvent;
+
+type CircularMovementConfiguration = {
+  mode: "circular";
+  deltaR?: number;
+};
+
+type LinearMovementConfiguration = {
+  mode: "linear";
+  deltaX?: number;
+  deltaY?: number;
+};
+
+export type MovementConfiguration =
+  | CircularMovementConfiguration
+  | LinearMovementConfiguration;
+
+type MovementHandler = (event: MoveEvent, angle: number) => void;
+
+function getEventXY(event: MoveEvent, touchId: number): Point | undefined {
+  if ("changedTouches" in event) {
     for (let i = 0; i < event.changedTouches.length; i += 1) {
       const touch = event.changedTouches[i];
       if (touch.identifier === touchId) {
@@ -14,21 +39,28 @@ function getEventXY(event, touchId) {
 }
 
 export function beginMovementBehavior(
-  configuration,
-  element,
-  beginEvent,
-  onAngleChange,
-  onFinish
+  configuration: MovementConfiguration,
+  element: HTMLElement,
+  beginEvent: MoveEvent,
+  onAngleChange: MovementHandler,
+  onFinish: MovementHandler
 ) {
   const isTouch = beginEvent.type === "touchstart";
-  const touchId = isTouch ? beginEvent.changedTouches[0].identifier : null;
+  const touchId =
+    "changedTouches" in beginEvent
+      ? beginEvent.changedTouches[0].identifier
+      : 0;
   const document = element.ownerDocument;
   const wheelBbox = element.getBoundingClientRect();
   const wheelMidX = (wheelBbox.left + wheelBbox.right) / 2;
   const wheelMidY = (wheelBbox.top + wheelBbox.bottom) / 2;
   const origXY = getEventXY(beginEvent, touchId);
   let currDegrees = 0;
-  let handleMove;
+  let handleMove: (event: MoveEvent) => void;
+  if (!origXY) {
+    // Couldn't get initial coordinate? Nothing we can do.
+    return;
+  }
 
   switch (configuration.mode) {
     case "circular":
@@ -38,7 +70,7 @@ export function beginMovementBehavior(
         const deltaR = configuration.deltaR || 1;
         let lastAngleRadians = Math.atan2(origRelY, origRelX);
 
-        handleMove = moveEvent => {
+        handleMove = (moveEvent: MoveEvent) => {
           const xy = getEventXY(moveEvent, touchId);
           if (xy === undefined) {
             return;
@@ -65,7 +97,7 @@ export function beginMovementBehavior(
         let lastXY = origXY;
         const deltaX = configuration.deltaX || 0;
         const deltaY = configuration.deltaY || 0;
-        handleMove = moveEvent => {
+        handleMove = (moveEvent) => {
           const xy = getEventXY(moveEvent, touchId);
           if (xy === undefined) {
             return;
@@ -89,7 +121,7 @@ export function beginMovementBehavior(
       );
   }
 
-  function handleUp(upEvent) {
+  function handleUp(upEvent: MoveEvent) {
     if (isTouch) {
       document.removeEventListener("touchmove", handleMove);
       document.removeEventListener("touchend", handleUp);
@@ -109,16 +141,19 @@ export function beginMovementBehavior(
     document.addEventListener("mousemove", handleMove);
     document.addEventListener("mouseup", handleUp);
   }
-  return true;
 }
 
 export function beginRotationBehavior(
-  element,
-  beginEvent,
-  onAngleChange,
-  onFinish
+  element: HTMLElement,
+  beginEvent: MoveEvent,
+  onAngleChange: MovementHandler,
+  onFinish: MovementHandler
 ) {
-  return beginMovementBehavior(element, beginEvent, onAngleChange, onFinish, {
-    mode: "circular"
-  });
+  return beginMovementBehavior(
+    { mode: "circular" },
+    element,
+    beginEvent,
+    onAngleChange,
+    onFinish
+  );
 }

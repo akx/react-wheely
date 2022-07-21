@@ -1,21 +1,27 @@
 import React from "react";
-import { beginMovementBehavior } from "./movementBehavior";
+import {
+  beginMovementBehavior,
+  MoveEvent,
+  MovementConfiguration,
+} from "./movementBehavior";
 import { limitValue } from "./utils";
 
-function getMovementConfiguration(movementMode) {
+function getMovementConfiguration(
+  movementMode: MovementMode | MovementConfiguration
+): MovementConfiguration {
   if (typeof movementMode === "string") {
     switch (movementMode) {
       case "circular":
         return {
           mode: "circular",
-          deltaR: 1
+          deltaR: 1,
         };
       case "horizontal":
       case "vertical":
         return {
           mode: "linear",
           deltaX: movementMode === "horizontal" ? +1 : 0,
-          deltaY: movementMode === "vertical" ? -1 : 0
+          deltaY: movementMode === "vertical" ? -1 : 0,
         };
       default:
         throw new Error(`invalid motion mode string: ${movementMode}`);
@@ -27,8 +33,30 @@ function getMovementConfiguration(movementMode) {
   throw new Error(`Invalid movement configuration`);
 }
 
+export type MovementMode = "circular" | "horizontal" | "vertical";
+
+type LabelRenderer = (opts: {
+  degrees: number;
+  changing: boolean;
+  style: React.CSSProperties;
+}) => React.ReactNode;
+
+export interface WheelProps {
+  size: number;
+  initialDegrees?: number;
+  snap?: number;
+  min?: number;
+  max?: number;
+  classNamePrefix: string;
+  movementMode: MovementMode;
+  onBeginChange?: (degrees: number) => void;
+  onChangeValue?: (degrees: number) => void;
+  onCommitValue?: (degrees: number) => void;
+  renderLabel?: LabelRenderer;
+}
+
 function Wheel({
-  size,
+  size = 200,
   initialDegrees,
   snap,
   min,
@@ -36,21 +64,21 @@ function Wheel({
   onBeginChange,
   onChangeValue,
   onCommitValue,
-  classNamePrefix,
+  classNamePrefix = "wheely-",
   renderLabel,
-  movementMode
-}) {
+  movementMode = "circular",
+}: WheelProps) {
   const ref = React.useRef(null);
   const [degrees, setDegrees] = React.useState(initialDegrees || 0);
   React.useEffect(() => {
-    setDegrees(initialDegrees);
+    setDegrees(initialDegrees || 0);
   }, [initialDegrees]);
   const [changing, setChanging] = React.useState(false);
 
   const handleBegin = React.useCallback(
-    event => {
+    (event: MoveEvent) => {
       const origStateDegrees = degrees;
-      const snapValue = newDegrees =>
+      const snapValue = (newDegrees: number) =>
         limitValue(origStateDegrees, newDegrees, snap, min, max);
       if (ref.current && !changing) {
         setChanging(true);
@@ -90,12 +118,16 @@ function Wheel({
       onBeginChange,
       onChangeValue,
       onCommitValue,
-      snap
+      snap,
     ]
   );
 
   const sizePx = `${size}px`;
-  const style = { width: sizePx, height: sizePx, touchAction: "none" };
+  const style: React.CSSProperties = {
+    width: sizePx,
+    height: sizePx,
+    touchAction: "none",
+  };
   return (
     <div
       className={`${classNamePrefix}base`}
@@ -108,18 +140,12 @@ function Wheel({
         className={`${classNamePrefix}inner`}
         style={{
           ...style,
-          transform: `rotate(${degrees.toFixed(1)}deg)`
+          transform: `rotate(${degrees.toFixed(1)}deg)`,
         }}
       />
       {renderLabel ? renderLabel({ degrees, changing, style }) : null}
     </div>
   );
 }
-
-Wheel.defaultProps = {
-  size: 200,
-  classNamePrefix: "wheely-",
-  movementMode: "circular"
-};
 
 export default Wheel;
