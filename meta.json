@@ -1,0 +1,29 @@
+{
+  "about": {
+    "homepage": "https://www.ladle.dev",
+    "github": "https://github.com/tajo/ladle",
+    "version": 1
+  },
+  "stories": {
+    "wheel--with-a-custom-label": {
+      "name": "With a custom label",
+      "levels": [
+        "Wheel"
+      ],
+      "locStart": 12,
+      "locEnd": 32,
+      "filePath": "src/stories/Wheel.stories.tsx",
+      "meta": {}
+    },
+    "wheel--phone-number-input": {
+      "name": "Phone number input",
+      "levels": [
+        "Wheel"
+      ],
+      "locStart": 64,
+      "locEnd": 93,
+      "filePath": "src/stories/Wheel.stories.tsx",
+      "meta": {}
+    }
+  }
+}
