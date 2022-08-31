@@ -36,13 +36,13 @@
   },
   "homepage": "https://github.com/akx/react-wheely#readme",
   "devDependencies": {
-    "@ladle/react": "^2.0.2",
+    "@ladle/react": "^2.4.2",
     "@types/node": "^18.0.6",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
-    "@vitejs/plugin-react": "^2.0.0",
+    "@vitejs/plugin-react": "^2.0.1",
     "eslint": "^7.1.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
@@ -57,7 +57,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^4.7.4",
-    "vite": "^3.0.2",
+    "vite": "^3.0.9",
     "vite-dts": "^1.0.4"
   },
   "peerDependencies": {

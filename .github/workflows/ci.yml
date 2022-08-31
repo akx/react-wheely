@@ -34,10 +34,9 @@ jobs:
           node-version: "16.x"
           cache: yarn
       - run: yarn
-      - run: yarn build --base=/react-wheely/
-# TODO: Re-enable deploy for Ladle
-#      - uses: JamesIves/github-pages-deploy-action@4.0.0
-#        with:
-#          branch: gh-pages
-#          folder: dist
-#        if: ${{ github.event_name == 'push' }}
+      - run: yarn ladle build --base=/react-wheely/
+      - uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          branch: gh-pages
+          folder: build
+        if: ${{ github.event_name == 'push' }}
