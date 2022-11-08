@@ -35,11 +35,13 @@ function getMovementConfiguration(
 
 export type MovementMode = "circular" | "horizontal" | "vertical";
 
-type LabelRenderer = (opts: {
+export interface LabelRendererOpts {
   degrees: number;
   changing: boolean;
   style: React.CSSProperties;
-}) => React.ReactNode;
+}
+
+export type LabelRenderer = (opts: LabelRendererOpts) => React.ReactNode;
 
 export interface WheelProps {
   size: number;
@@ -47,8 +49,8 @@ export interface WheelProps {
   snap?: number;
   min?: number;
   max?: number;
-  classNamePrefix: string;
-  movementMode: MovementMode;
+  classNamePrefix?: string;
+  movementMode?: MovementMode;
   onBeginChange?: (degrees: number) => void;
   onChangeValue?: (degrees: number) => void;
   onCommitValue?: (degrees: number) => void;
