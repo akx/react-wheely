@@ -2,7 +2,7 @@ import React from "react";
 import { Wheel } from "../../lib";
 import "./example-style.css";
 import type { Story } from "@ladle/react";
-import { MovementMode } from "../../lib/components/Wheel/Wheel";
+import { LabelRenderer, MovementMode } from "../../lib/components/Wheel/Wheel";
 
 export default {
   title: "Wheel",
@@ -89,5 +89,56 @@ export const PhoneNumberInput = () => {
       />
       <div style={{ display: "flex", marginTop: ".5em" }}>{wheels}</div>
     </div>
+  );
+};
+
+export const InfuriatingRangeInput = () => {
+  const minPage = 1;
+  const maxPage = 100;
+  const [min, setMin] = React.useState(minPage);
+  const [max, setMax] = React.useState(Math.floor(maxPage / 2));
+  const degPerPage = 10;
+  const renderLabel: LabelRenderer = ({ degrees, style }) => (
+    <div className="my-wheel-label" style={style}>
+      {Math.floor(degrees / degPerPage)}
+    </div>
+  );
+  return (
+    <table>
+      <tr>
+        <td>
+          <Wheel
+            size={150}
+            min={minPage * degPerPage}
+            max={max * degPerPage}
+            initialDegrees={min * degPerPage}
+            renderLabel={renderLabel}
+            onChangeValue={(value) => setMin(Math.floor(value / degPerPage))}
+          />
+        </td>
+        <td>
+          {" "}
+          <Wheel
+            size={150}
+            min={min * degPerPage}
+            max={maxPage * degPerPage}
+            initialDegrees={max * degPerPage}
+            renderLabel={renderLabel}
+            onChangeValue={(value) => setMax(Math.floor(value / degPerPage))}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td colSpan={2} style={{ textAlign: "center" }}>
+          Print pages: {min}
+          {" to "}
+          {max}
+          {" / "}
+          {maxPage}
+          <br />
+          Print capacity: <progress max={maxPage} value={max - min + 1} />
+        </td>
+      </tr>
+    </table>
   );
 };
