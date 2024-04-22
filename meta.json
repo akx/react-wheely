@@ -5,14 +5,15 @@
     "version": 1
   },
   "stories": {
-    "wheel--with-a-custom-label": {
-      "name": "With a custom label",
+    "wheel--infuriating-range-input": {
+      "name": "Infuriating range input",
       "levels": [
         "Wheel"
       ],
-      "locStart": 12,
-      "locEnd": 32,
+      "locStart": 96,
+      "locEnd": 145,
       "filePath": "src/stories/Wheel.stories.tsx",
+      "namedExport": "InfuriatingRangeInput",
       "meta": {}
     },
     "wheel--phone-number-input": {
@@ -20,9 +21,21 @@
       "levels": [
         "Wheel"
       ],
-      "locStart": 64,
-      "locEnd": 93,
+      "locStart": 65,
+      "locEnd": 94,
       "filePath": "src/stories/Wheel.stories.tsx",
+      "namedExport": "PhoneNumberInput",
+      "meta": {}
+    },
+    "wheel--with-a-custom-label": {
+      "name": "With a custom label",
+      "levels": [
+        "Wheel"
+      ],
+      "locStart": 13,
+      "locEnd": 33,
+      "filePath": "src/stories/Wheel.stories.tsx",
+      "namedExport": "WithACustomLabel",
       "meta": {}
     }
   }
