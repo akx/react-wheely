@@ -10,7 +10,7 @@ export function limitValue(
   delta: number,
   snap?: number,
   min?: number,
-  max?: number
+  max?: number,
 ): number {
   let total = initial + delta;
   if (snap !== undefined && snap > 0) {
