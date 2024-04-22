@@ -43,7 +43,7 @@ export function beginMovementBehavior(
   element: HTMLElement,
   beginEvent: MoveEvent,
   onAngleChange: MovementHandler,
-  onFinish: MovementHandler
+  onFinish: MovementHandler,
 ) {
   const isTouch = beginEvent.type === "touchstart";
   const touchId =
@@ -82,7 +82,7 @@ export function beginMovementBehavior(
           const deltaDegrees =
             angleDifference(
               angleRadians * -RAD_TO_DEG,
-              lastAngleRadians * -RAD_TO_DEG
+              lastAngleRadians * -RAD_TO_DEG,
             ) * deltaR;
           if (Math.abs(deltaDegrees) >= 0.1) {
             lastAngleRadians = angleRadians;
@@ -116,8 +116,8 @@ export function beginMovementBehavior(
     default:
       throw new Error(
         `Unsupported movement mode in configuration: ${JSON.stringify(
-          configuration
-        )}`
+          configuration,
+        )}`,
       );
   }
 
@@ -147,13 +147,13 @@ export function beginRotationBehavior(
   element: HTMLElement,
   beginEvent: MoveEvent,
   onAngleChange: MovementHandler,
-  onFinish: MovementHandler
+  onFinish: MovementHandler,
 ) {
   return beginMovementBehavior(
     { mode: "circular" },
     element,
     beginEvent,
     onAngleChange,
-    onFinish
+    onFinish,
   );
 }

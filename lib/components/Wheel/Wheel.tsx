@@ -7,7 +7,7 @@ import {
 import { limitValue } from "./utils";
 
 function getMovementConfiguration(
-  movementMode: MovementMode | MovementConfiguration
+  movementMode: MovementMode | MovementConfiguration,
 ): MovementConfiguration {
   if (typeof movementMode === "string") {
     switch (movementMode) {
@@ -35,7 +35,7 @@ function getMovementConfiguration(
 
 export type MovementMode = "circular" | "horizontal" | "vertical";
 
-type LabelRenderer = (opts: {
+export type LabelRenderer = (opts: {
   degrees: number;
   changing: boolean;
   style: React.CSSProperties;
@@ -47,8 +47,8 @@ export interface WheelProps {
   snap?: number;
   min?: number;
   max?: number;
-  classNamePrefix: string;
-  movementMode: MovementMode;
+  classNamePrefix?: string;
+  movementMode?: MovementMode;
   onBeginChange?: (degrees: number) => void;
   onChangeValue?: (degrees: number) => void;
   onCommitValue?: (degrees: number) => void;
@@ -105,7 +105,7 @@ function Wheel({
             if (onCommitValue) {
               onCommitValue(totalDegrees);
             }
-          }
+          },
         );
       }
     },
@@ -119,7 +119,7 @@ function Wheel({
       onChangeValue,
       onCommitValue,
       snap,
-    ]
+    ],
   );
 
   const sizePx = `${size}px`;
