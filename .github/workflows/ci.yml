@@ -10,16 +10,16 @@ jobs:
   build-lib:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "16.x"
+          node-version: "20.x"
           cache: yarn
       - run: yarn
       - run: yarn lint
       - run: yarn build:lib
       - run: npm pack
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: "dist"
           path: "*.tgz"
@@ -28,14 +28,14 @@ jobs:
       - build-lib
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "16.x"
+          node-version: "20.x"
           cache: yarn
       - run: yarn
       - run: yarn ladle build --base=/react-wheely/
-      - uses: JamesIves/github-pages-deploy-action@4.0.0
+      - uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: build
