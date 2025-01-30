@@ -35,11 +35,14 @@ function getMovementConfiguration(
 
 export type MovementMode = "circular" | "horizontal" | "vertical";
 
-export type LabelRenderer = (opts: {
+interface RenderArgs {
   degrees: number;
   changing: boolean;
   style: React.CSSProperties;
-}) => React.ReactNode;
+  props: WheelProps;
+}
+
+export type Renderer = (opts: RenderArgs) => React.ReactNode;
 
 export interface WheelProps {
   size: number;
@@ -52,22 +55,25 @@ export interface WheelProps {
   onBeginChange?: (degrees: number) => void;
   onChangeValue?: (degrees: number) => void;
   onCommitValue?: (degrees: number) => void;
-  renderLabel?: LabelRenderer;
+  renderLabel?: Renderer;
+  renderWheel?: Renderer;
 }
 
-function Wheel({
-  size = 200,
-  initialDegrees,
-  snap,
-  min,
-  max,
-  onBeginChange,
-  onChangeValue,
-  onCommitValue,
-  classNamePrefix = "wheely-",
-  renderLabel,
-  movementMode = "circular",
-}: WheelProps) {
+function Wheel(props: WheelProps) {
+  const {
+    size = 200,
+    initialDegrees,
+    snap,
+    min,
+    max,
+    onBeginChange,
+    onChangeValue,
+    onCommitValue,
+    classNamePrefix = "wheely-",
+    renderLabel,
+    renderWheel,
+    movementMode = "circular",
+  } = props;
   const ref = React.useRef(null);
   const [degrees, setDegrees] = React.useState(initialDegrees || 0);
   React.useEffect(() => {
@@ -128,6 +134,7 @@ function Wheel({
     height: sizePx,
     touchAction: "none",
   };
+  const renderArgs = { degrees, changing, style, props };
   return (
     <div
       className={`${classNamePrefix}base`}
@@ -136,14 +143,18 @@ function Wheel({
       onMouseDown={handleBegin}
       onTouchStart={handleBegin}
     >
-      <div
-        className={`${classNamePrefix}inner`}
-        style={{
-          ...style,
-          transform: `rotate(${degrees.toFixed(1)}deg)`,
-        }}
-      />
-      {renderLabel ? renderLabel({ degrees, changing, style }) : null}
+      {renderWheel ? (
+        renderWheel(renderArgs)
+      ) : (
+        <div
+          className={`${classNamePrefix}inner`}
+          style={{
+            ...style,
+            transform: `rotate(${degrees.toFixed(1)}deg)`,
+          }}
+        />
+      )}
+      {renderLabel ? renderLabel(renderArgs) : null}
     </div>
   );
 }
