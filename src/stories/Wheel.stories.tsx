@@ -3,7 +3,7 @@ import React from "react";
 import { Wheel } from "../../lib";
 import "./example-style.css";
 import type { Story } from "@ladle/react";
-import { LabelRenderer, MovementMode } from "../../lib/components/Wheel/Wheel";
+import { Renderer, MovementMode } from "../../lib/components/Wheel/Wheel";
 
 export default {
   title: "Wheel",
@@ -99,7 +99,7 @@ export const InfuriatingRangeInput = () => {
   const [min, setMin] = React.useState(minPage);
   const [max, setMax] = React.useState(Math.floor(maxPage / 2));
   const degPerPage = 10;
-  const renderLabel: LabelRenderer = ({ degrees, style }) => (
+  const renderLabel: Renderer = ({ degrees, style }) => (
     <div className="my-wheel-label" style={style}>
       {Math.floor(degrees / degPerPage)}
     </div>
@@ -142,4 +142,102 @@ export const InfuriatingRangeInput = () => {
       </tr>
     </table>
   );
+};
+
+function describeDonutSlice(
+  innerRadius: number,
+  outerRadius: number,
+  startAngle: number,
+  endAngle: number,
+): string {
+  if (Math.abs(endAngle - startAngle) >= 360) {
+    const halfPath1 = describeDonutSlice(innerRadius, outerRadius, 0, 180);
+    const halfPath2 = describeDonutSlice(innerRadius, outerRadius, 180, 360);
+    return `${halfPath1} ${halfPath2}`;
+  }
+  const startRad = ((startAngle - 90) * Math.PI) / 180;
+  const endRad = ((endAngle - 90) * Math.PI) / 180;
+  const outerStartX = outerRadius * Math.cos(startRad);
+  const outerStartY = outerRadius * Math.sin(startRad);
+  const outerEndX = outerRadius * Math.cos(endRad);
+  const outerEndY = outerRadius * Math.sin(endRad);
+  const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+  const outerCommands = [
+    `M ${outerStartX} ${outerStartY}`,
+    `A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${outerEndX} ${outerEndY}`,
+  ];
+  if (innerRadius !== outerRadius) {
+    const innerStartX = innerRadius * Math.cos(startRad);
+    const innerStartY = innerRadius * Math.sin(startRad);
+    const innerEndX = innerRadius * Math.cos(endRad);
+    const innerEndY = innerRadius * Math.sin(endRad);
+    return [
+      ...outerCommands,
+      `L ${innerEndX} ${innerEndY}`,
+      `A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${innerStartX} ${innerStartY}`,
+      "Z",
+    ].join("");
+  }
+  return [...outerCommands].join("");
+}
+
+export const CircularTimer = () => {
+  const [time, setTime] = React.useState(42);
+  const renderWheel: Renderer = ({ degrees, style, props: { size } }) => (
+    <svg style={style}>
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={size / 2 - 10}
+        fill="none"
+        stroke="#eee"
+        strokeWidth="10"
+      />
+
+      <g transform={`translate(${size / 2},${size / 2}) `}>
+        <path
+          d={describeDonutSlice(30, size / 2, 0, time >= 60 ? 360 : degrees)}
+          fill="#d33"
+        />
+      </g>
+    </svg>
+  );
+  return (
+    <>
+      <div
+        style={{
+          textAlign: "center",
+          padding: "2em",
+          fontFamily: "Consolas,Monaco,monospace",
+          width: "10em",
+          border: "1px solid #eee",
+        }}
+      >
+        <div style={{ paddingBottom: "1em" }}>
+          <div style={{ fontSize: "2em", paddingBottom: "0.25em" }}>
+            {Math.floor(time)}
+            <br />
+            MIN
+          </div>
+          SETUP TIME
+        </div>
+        <Wheel
+          classNamePrefix="timer-wheel-"
+          size={150}
+          min={0}
+          max={360}
+          initialDegrees={time * 6}
+          onChangeValue={(value) => setTime(value / 6)}
+          renderWheel={renderWheel}
+        />
+      </div>
+      <p>
+        h/t, inspired by{" "}
+        <a href="https://x.com/boredpxnda/status/1884668748331659631">
+          boredpxnda
+        </a>
+      </p>
+    </>
+  );
+  //
 };
