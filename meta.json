@@ -10,8 +10,8 @@
       "levels": [
         "Wheel"
       ],
-      "locStart": 184,
-      "locEnd": 243,
+      "locStart": 183,
+      "locEnd": 242,
       "filePath": "src/stories/Wheel.stories.tsx",
       "namedExport": "CircularTimer",
       "meta": {}
@@ -21,8 +21,8 @@
       "levels": [
         "Wheel"
       ],
-      "locStart": 96,
-      "locEnd": 145,
+      "locStart": 95,
+      "locEnd": 144,
       "filePath": "src/stories/Wheel.stories.tsx",
       "namedExport": "InfuriatingRangeInput",
       "meta": {}
@@ -33,7 +33,7 @@
         "Wheel"
       ],
       "locStart": 65,
-      "locEnd": 94,
+      "locEnd": 93,
       "filePath": "src/stories/Wheel.stories.tsx",
       "namedExport": "PhoneNumberInput",
       "meta": {}
