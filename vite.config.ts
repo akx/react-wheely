@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { defineConfig, UserConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";

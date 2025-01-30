@@ -1,4 +1,4 @@
-/* eslint-disable react/function-component-definition,jsx-a11y/control-has-associated-label */
+/* eslint-disable react/prop-types */
 import React from "react";
 import { Wheel } from "../../lib";
 import "./example-style.css";
@@ -71,7 +71,6 @@ export const PhoneNumberInput = () => {
   };
   const wheels = Array.from(number).map((v, index) => (
     <Wheel
-      // eslint-disable-next-line react/no-array-index-key
       key={index}
       size={70}
       min={0}
