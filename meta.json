@@ -5,6 +5,17 @@
     "version": 1
   },
   "stories": {
+    "wheel--circular-timer": {
+      "name": "Circular timer",
+      "levels": [
+        "Wheel"
+      ],
+      "locStart": 184,
+      "locEnd": 243,
+      "filePath": "src/stories/Wheel.stories.tsx",
+      "namedExport": "CircularTimer",
+      "meta": {}
+    },
     "wheel--infuriating-range-input": {
       "name": "Infuriating range input",
       "levels": [
